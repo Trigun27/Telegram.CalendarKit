@@ -44,7 +44,7 @@ namespace Telegram.CalendarKit
         }
 
         // Обработка переключения месяцев
-        public async Task<InlineKeyboardMarkup> HandleNavigation(string callbackData)
+        public async Task<InlineKeyboardMarkup> HandleMonthNavigation(string callbackData)
         {
             // Логика обработки callback, обновление месяца/года
             // Например: "calendar:prev:2024-12" -> сдвигаем на месяц назад
