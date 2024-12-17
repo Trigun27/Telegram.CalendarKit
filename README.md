@@ -1,5 +1,7 @@
 # Telegram.CalendarKit
 
+### **Nuget Packet:** [here](https://www.nuget.org/packages/Telegram.CalendarKit/).
+
 ## Library Description
 This library provides functionality for generating and sending calendars in Telegram bots. It allows creating inline buttons to display calendars for various months with navigation support between months. The library supports two view types: a full monthly calendar and a weekly calendar view. Additionally, it enables sending the generated calendars to a chat and handling user actions, such as moving to the next or previous month.
 
