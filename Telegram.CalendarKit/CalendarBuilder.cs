@@ -13,6 +13,34 @@ namespace Telegram.CalendarKit
 
         public CalendarBuilder() { }
 
+        /// <summary>
+        /// Generates an inline keyboard markup for a calendar based on the specified year, month, and view type.
+        /// </summary>
+        /// <param name="year">The year for which the calendar is generated.</param>
+        /// <param name="month">The month for which the calendar is generated.</param>
+        /// <param name="viewType">
+        /// The type of calendar view to generate. Supported types are:
+        /// <see cref="CalendarViewType.Default"/> for a full monthly calendar and 
+        /// <see cref="CalendarViewType.Weekly"/> for a weekly calendar view.
+        /// </param>
+        /// <returns>
+        /// An <see cref="InlineKeyboardMarkup"/> object representing the calendar buttons for the specified view type.
+        /// </returns>
+        /// <remarks>
+        /// This method uses a switch expression to determine the calendar generation logic based on the <paramref name="viewType"/>:
+        /// - <see cref="CalendarViewType.Default"/> generates a full month calendar with day navigation.
+        /// - <see cref="CalendarViewType.Weekly"/> generates a weekly calendar layout.
+        /// Throws an <see cref="ArgumentException"/> if an unsupported view type is provided.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// var calendarMarkup = GenerateCalendarButtons(2024, 12, CalendarViewType.Default);
+        /// </code>
+        /// This will create a default calendar for December 2024.
+        /// </example>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the provided <paramref name="viewType"/> is not supported.
+        /// </exception>
         public InlineKeyboardMarkup GenerateCalendarButtons(int year, int month, CalendarViewType viewType)
         {
             return viewType switch
@@ -45,86 +73,45 @@ namespace Telegram.CalendarKit
             }
         }
 
-
         /// <summary>
-        /// Handles the navigation callback for moving between months in the calendar.
-        /// Generates an updated inline keyboard for the new month.
+        /// Handles navigation through a calendar based on the provided callback data.
+        /// Adjusts the year and month based on the action (e.g., "prev" or "next") 
+        /// and regenerates the calendar markup for the specified view type.
         /// </summary>
-        /// <param name="callbackData">The callback data string containing navigation information.</param>
-        /// <returns>An updated inline keyboard markup for the new month's calendar.</returns>
-        public async Task<InlineKeyboardMarkup> HandleMonthNavigation(string callbackData)
+        /// <param name="callbackData">The callback data containing navigation action and current date.</param>
+        /// <param name="viewType">The type of calendar view (e.g., Default or Weekly).</param>
+        /// <returns>
+        /// An <see cref="InlineKeyboardMarkup"/> representing the updated calendar with new navigation buttons.
+        /// </returns>
+        /// <remarks>
+        /// This method supports two navigation actions:
+        /// - "prev" to navigate to the previous month.
+        /// - "next" to navigate to the next month.
+        /// The year is adjusted automatically when transitioning between December and January.
+        /// </remarks>
+        /// <example>
+        /// Example callback data: "calendar:prev:2024-12".
+        /// Result: A calendar for November 2024 if the action is "prev".
+        /// </example>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the callback data cannot be parsed.
+        /// </exception>
+        public async Task<InlineKeyboardMarkup> HandleNavigation(string callbackData, CalendarViewType viewType)
         {
-            // Callback processing logic, month/year update
-            // For example: "calendar:prev:2024-12" -> move back a month
-            // Return a new set of buttons
             CalendarCallbackData callback = ParseCalendarCallback(callbackData);
             if (callback.Action == "prev")
             {
-                if (callback.Month == 1)
-                {
-                    callback.Year = callback.Year - 1;
-                    callback.Month = 12;
-                }
-                else
-                {
-                    callback.Month = callback.Month - 1;
-                }
+                callback.Month = callback.Month == 1 ? 12 : callback.Month - 1;
+                callback.Year -= callback.Month == 12 ? 1 : 0;
             }
-            if (callback.Action == "next")
+            else if (callback.Action == "next")
             {
-                if (callback.Month == 12)
-                {
-                    callback.Year = callback.Year + 1;
-                    callback.Month = 1;
-                }
-                else
-                {
-                    callback.Month = callback.Month + 1;
-                }
+                callback.Month = callback.Month == 12 ? 1 : callback.Month + 1;
+                callback.Year += callback.Month == 1 ? 1 : 0;
             }
-            return GenerateDefaultCalendarMarkup(callback.Year,callback.Month);
+            return GenerateCalendarButtons(callback.Year, callback.Month, viewType);
         }
 
-        /// <summary>
-        /// Handles the navigation callback for moving between months in the weekly calendar view.
-        /// Generates an updated inline keyboard for the new month in weekly view.
-        /// </summary>
-        /// <param name="callbackData">The callback data string containing navigation information.</param>
-        /// <returns>An updated inline keyboard markup for the new month's weekly calendar view.</returns>
-        public async Task<InlineKeyboardMarkup> HandleMonthNavigationWeekly(string callbackData)
-        {
-            // Callback processing logic, month/ year update
-            // For example: "calendar:prev:2024-12" -> move back a month
-            // Return a new set of buttons
-            CalendarCallbackData callback = ParseCalendarCallback(callbackData);
-            if (callback.Action == "prev")
-            {
-                // Переключение на предыдущий месяц
-                if (callback.Month == 1)
-                {
-                    callback.Year = callback.Year - 1;
-                    callback.Month = 12;
-                }
-                else
-                {
-                    callback.Month = callback.Month - 1;
-                }
-            }
-            if (callback.Action == "next")
-            {
-                // Переключение на предыдущий месяц
-                if (callback.Month == 12)
-                {
-                    callback.Year = callback.Year + 1;
-                    callback.Month = 1;
-                }
-                else
-                {
-                    callback.Month = callback.Month + 1;
-                }
-            }
-            return GenerateWeeklyCalendarMarkup(callback.Year, callback.Month);
-        }
 
         /// <summary>
         /// Parses a callback data string into a <see cref="CalendarCallbackData"/> object.
