@@ -4,6 +4,18 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<Version>0.0.1</Version>
+	<PackageId>Telegram.CalendarKit</PackageId>
+	<Authors>Pototsky Alexander</Authors>
+	<Company>black illusion</Company>
+	<Copyright>MIT</Copyright>
+	<Description>A .NET library for creating and managing interactive Telegram bot calendars. It allows generating inline calendar buttons for both monthly and weekly views, supporting easy navigation between months and years. Ideal for integrating date-based interactions in Telegram bot applications.</Description>
+	<PackageTags>Telegram;Bot;Inline</PackageTags>
+	<RepositoryUrl>https://github.com/hekkaaa/Telegram.CalendarKit</RepositoryUrl>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+	<PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
