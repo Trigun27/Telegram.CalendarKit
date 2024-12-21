@@ -57,6 +57,41 @@ Generates an inline keyboard for displaying a weekly calendar view.
 var calendarMarkup = calendarBuilder.GenerateWeeklyCalendarMarkup(2024, 12);
 ```
 
+# Supported Languages for Weekdays
+
+This class provides weekday names in different languages and cultures. The supported languages are listed below along with their abbreviations for the days of the week.
+
+## Supported Languages
+
+| Language       | Abbreviation of Days of the Week |
+|----------------|----------------------------------|
+| **Russian**    | "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" |
+| **Chinese**    | "一", "二", "三", "四", "五", "六", "日" |
+| **French**     | "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim" |
+| **Spanish**    | "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom" |
+| **English**    | "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" |
+| **German**     | "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" |
+| **Italian**    | "Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom" |
+| **Portuguese** | "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom" |
+| **Arabic**     | "السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة" |
+| **Japanese**   | "月", "火", "水", "木", "金", "土", "日" |
+| **Korean**     | "월", "화", "수", "목", "금", "토", "일" |
+| **Polish**     | "Pon", "Wt", "Śr", "Cz", "Pt", "Sob", "Nd" |
+| **Swedish**    | "Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön" |
+| **Dutch**      | "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" |
+| **Turkish**    | "Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt" |
+| **Hebrew**     | "ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת" |
+| **Hindi**      | "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनिवार", "रविवार" |
+
+## Usage
+
+To use this provider for retrieving the correct weekday names based on the selected culture, you can call the `GetDaysOfWeek` method with the culture code of the desired language.
+
+```csharp
+string[] weekdays = WeekdayLanguageProvider.GetDaysOfWeek("fr");
+```
+This will return the French weekday names: `{"Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"}`.
+
 <hr>
 
 ## Описание библиотеки
@@ -113,3 +148,38 @@ var calendarMarkup = calendarBuilder.GenerateDefaultCalendarMarkup(2024, 12);
 var calendarMarkup = calendarBuilder.GenerateWeeklyCalendarMarkup(2024, 12);
 ```
 
+# Поддерживаемые Языки для Дней Недели
+
+Этот класс предоставляет названия дней недели на различных языках и культурах. Поддерживаемые языки приведены ниже с их аббревиатурами для дней недели.
+
+## Поддерживаемые Языки
+
+| Язык          | Аббревиатуры Дней Недели            |
+|---------------|-------------------------------------|
+| **Русский**   | "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" |
+| **Китайский** | "一", "二", "三", "四", "五", "六", "日" |
+| **Французский**| "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim" |
+| **Испанский** | "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom" |
+| **Английский** | "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" |
+| **Немецкий**  | "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" |
+| **Итальянский**| "Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom" |
+| **Португальский** | "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom" |
+| **Арабский**  | "السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة" |
+| **Японский**  | "月", "火", "水", "木", "金", "土", "日" |
+| **Корейский** | "월", "화", "수", "목", "금", "토", "일" |
+| **Польский**  | "Pon", "Wt", "Śr", "Cz", "Pt", "Sob", "Nd" |
+| **Шведский**  | "Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön" |
+| **Голландский** | "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" |
+| **Турецкий**  | "Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt" |
+| **Иврит**     | "ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת" |
+| **Хинди**     | "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनिवार", "रविवार" |
+
+## Использование
+
+Для использования этого провайдера и получения правильных названий дней недели в зависимости от выбранной культуры, вы можете вызвать метод `GetDaysOfWeek` с кодом культуры желаемого языка.
+
+```csharp
+string[] weekdays = WeekdayLanguageProvider.GetDaysOfWeek("fr");
+```
+
+Этот код вернет французские названия дней недели: `{"Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"}`.
