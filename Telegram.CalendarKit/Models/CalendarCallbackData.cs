@@ -1,5 +1,5 @@
 ﻿namespace Telegram.CalendarKit.Models
-{   
+{
     /// <summary>
     /// Represents the callback data for calendar navigation actions.
     /// This data is used to track the user's interaction with the calendar UI,

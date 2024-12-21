@@ -5,13 +5,39 @@ using Telegram.CalendarKit.Models.Enums;
 
 namespace Telegram.CalendarKit
 {
+    /// <summary>
+    /// A class responsible for generating calendar views, including full month and weekly calendars,
+    /// with support for multiple languages (cultures) for weekdays.
+    /// </summary>
+    /// <remarks>
+    /// The <see cref="CalendarBuilder"/> class allows for the creation of interactive calendar interfaces,
+    /// with weekday names localized according to the selected culture. It supports both monthly and weekly calendar views.
+    /// </remarks>
     public class CalendarBuilder
     {
         private const int DayOfWeek = 7;
+        private const string DefaultCulture = "en";
 
         string[] daysOfWeek = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 
+        /// <summary>
+        /// Constructor for creating a <see cref="CalendarBuilder"/> object.
+        /// </summary>
         public CalendarBuilder() { }
+
+        /// <summary>
+        /// Constructor for creating a <see cref="CalendarBuilder"/> object with a specified culture for the weekdays.
+        /// </summary>
+        /// <param name="cultureWeek">The culture code for displaying the weekdays (e.g., "en" for English, "ru" for Russian, etc.).</param>
+        /// <remarks>
+        /// This constructor initializes the object with localized weekday names using the <see cref="WeekdayLanguageProvider.GetDaysOfWeek"/>
+        /// method to fetch the list of weekdays corresponding to the selected culture.
+        /// </remarks>
+        public CalendarBuilder(string cultureWeek)
+        {
+            // localized
+            daysOfWeek = WeekdayLanguageProvider.GetDaysOfWeek(cultureWeek);
+        }
 
         /// <summary>
         /// Generates an inline keyboard markup for a calendar based on the specified year, month, and view type.
@@ -23,6 +49,7 @@ namespace Telegram.CalendarKit
         /// <see cref="CalendarViewType.Default"/> for a full monthly calendar and 
         /// <see cref="CalendarViewType.Weekly"/> for a weekly calendar view.
         /// </param>
+        /// <param name="cultureWeek"></param>
         /// <returns>
         /// An <see cref="InlineKeyboardMarkup"/> object representing the calendar buttons for the specified view type.
         /// </returns>
@@ -41,8 +68,10 @@ namespace Telegram.CalendarKit
         /// <exception cref="ArgumentException">
         /// Thrown if the provided <paramref name="viewType"/> is not supported.
         /// </exception>
-        public InlineKeyboardMarkup GenerateCalendarButtons(int year, int month, CalendarViewType viewType)
+        public InlineKeyboardMarkup GenerateCalendarButtons(int year, int month, CalendarViewType viewType, string cultureWeek = DefaultCulture)
         {
+            daysOfWeek = WeekdayLanguageProvider.GetDaysOfWeek(cultureWeek);
+
             return viewType switch
             {
                 CalendarViewType.Default => GenerateDefaultCalendarMarkup(year, month),
@@ -59,10 +88,14 @@ namespace Telegram.CalendarKit
         /// <param name="message">The text message accompanying the calendar.</param>
         /// <param name="year">The year of the calendar to send.</param>
         /// <param name="month">The month of the calendar to send.</param>
+        /// <param name="viewType"></param>
+        /// <param name="cultureWeek"></param>
         /// <returns>A task that represents the asynchronous operation of sending the message.</returns>
-        public async Task SendCalendarMessageAsync(ITelegramBotClient botClient, long chatId, string message, int year, int month, CalendarViewType viewType)
+        public async Task SendCalendarMessageAsync(ITelegramBotClient botClient, long chatId, string message, int year, int month, CalendarViewType viewType, string cultureWeek = DefaultCulture)
         {
-            var calendarMarkup = GenerateCalendarButtons(year, month, viewType);
+            daysOfWeek = WeekdayLanguageProvider.GetDaysOfWeek(cultureWeek);
+
+            var calendarMarkup = GenerateCalendarButtons(year, month, viewType, cultureWeek);
             try
             {
                 await botClient.SendMessage(chatId, message, replyMarkup: calendarMarkup);
@@ -80,6 +113,7 @@ namespace Telegram.CalendarKit
         /// </summary>
         /// <param name="callbackData">The callback data containing navigation action and current date.</param>
         /// <param name="viewType">The type of calendar view (e.g., Default or Weekly).</param>
+        /// <param name="cultureWeek"></param>
         /// <returns>
         /// An <see cref="InlineKeyboardMarkup"/> representing the updated calendar with new navigation buttons.
         /// </returns>
@@ -96,9 +130,9 @@ namespace Telegram.CalendarKit
         /// <exception cref="ArgumentException">
         /// Thrown if the callback data cannot be parsed.
         /// </exception>
-        public async Task<InlineKeyboardMarkup> HandleNavigation(string callbackData, CalendarViewType viewType)
+        public async Task<InlineKeyboardMarkup> HandleNavigation(string callbackData, CalendarViewType viewType, string cultureWeek = DefaultCulture)
         {
-            CalendarCallbackData callback = ParseCalendarCallback(callbackData);
+            CalendarCallbackData callback = await Task.Run(() => ParseCalendarCallback(callbackData));
             if (callback.Action == "prev")
             {
                 callback.Month = callback.Month == 1 ? 12 : callback.Month - 1;
@@ -109,7 +143,7 @@ namespace Telegram.CalendarKit
                 callback.Month = callback.Month == 12 ? 1 : callback.Month + 1;
                 callback.Year += callback.Month == 1 ? 1 : 0;
             }
-            return GenerateCalendarButtons(callback.Year, callback.Month, viewType);
+            return GenerateCalendarButtons(callback.Year, callback.Month, viewType, cultureWeek);
         }
 
 
