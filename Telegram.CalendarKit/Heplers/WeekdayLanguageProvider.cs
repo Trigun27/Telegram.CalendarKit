@@ -11,25 +11,25 @@
 public class WeekdayLanguageProvider
 {
     // Dictionary for storing weekdays by cultures
-    private static readonly Dictionary<string, string[]> WeekdaysDictionary = new Dictionary<string, string[]>
+    private static readonly Dictionary<string, string[]> WeekdaysDictionary = new()
     {
-        { "ru", new[] { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" } },
-        { "zh", new[] { "一", "二", "三", "四", "五", "六", "日" } },
-        { "fr", new[] { "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim" } },
-        { "es", new[] { "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom" } },
-        { "en", new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" } }, // Default 
-        { "de", new[] { "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So" } },
-        { "it", new[] { "Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom" } },
-        { "pt", new[] { "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom" } },
-        { "ar", new[] { "السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة" } },
-        { "ja", new[] { "月", "火", "水", "木", "金", "土", "日" } },
-        { "ko", new[] { "월", "화", "수", "목", "금", "토", "일" } },
-        { "pl", new[] { "Pon", "Wt", "Śr", "Cz", "Pt", "Sob", "Nd" } },
-        { "sv", new[] { "Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön" } },
-        { "nl", new[] { "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo" } },
-        { "tr", new[] { "Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt" } },
-        { "he", new[] { "ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת" } },
-        { "hi", new[] { "सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनिवार", "रविवार" } },
+        { "ru", ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"] },
+        { "zh", ["一", "二", "三", "四", "五", "六", "日"] },
+        { "fr", ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"] },
+        { "es", ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"] },
+        { "en", ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] }, // Default 
+        { "de", ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"] },
+        { "it", ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"] },
+        { "pt", ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"] },
+        { "ar", ["السبت", "الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"] },
+        { "ja", ["月", "火", "水", "木", "金", "土", "日"] },
+        { "ko", ["월", "화", "수", "목", "금", "토", "일"] },
+        { "pl", ["Pon", "Wt", "Śr", "Cz", "Pt", "Sob", "Nd"] },
+        { "sv", ["Mån", "Tis", "Ons", "Tor", "Fre", "Lör", "Sön"] },
+        { "nl", ["Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo"] },
+        { "tr", ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"] },
+        { "he", ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"] },
+        { "hi", ["सोम", "मंगल", "बुध", "गुरु", "शुक्र", "शनिवार", "रविवार"] },
     };
 
     /// <summary>
